@@ -1,0 +1,220 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const featured = (await getCollection('use-cases'))
+  .filter((c) => c.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout
+  title="Creative AI Explorer"
+  description="Explore current and emerging creative AI tools, workflows, and future trajectories across image, video, music, writing, and agentic systems. Updated for 2026."
+>
+  <Header />
+  <main>
+    <Hero />
+
+    <!-- Current Landscape -->
+    <section id="current" class="section-padding border-t border-slate-800/60">
+      <div class="container-narrow">
+        <div class="mb-12 max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Now</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">The 2026 Creative AI Landscape</h2>
+          <p class="text-slate-400 leading-relaxed">
+            Creative practice has moved past early novelty. The dominant pattern is hybrid human–AI workflows
+            where models handle volume, variation, and continuity while humans retain direction, taste, and final accountability.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500/15 text-brand-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Visual Generation</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              High-fidelity image models with strong prompt adherence, style control, and reference-driven consistency.
+              Inpainting, control nets, and upscalers form the everyday toolkit for concept art, product visualization, and marketing assets.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent-500/15 text-accent-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Video & Motion</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Runway, Kling, Luma and related systems now support longer coherent clips, better character persistence,
+              and usable camera language. Short-form narrative and product motion are increasingly viable for small teams.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Music & Audio</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Suno, Udio and specialized models accelerate sketching, arrangement, and stem generation.
+              Hybrid DAW workflows remain standard for professional release quality and emotional nuance.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/15 text-amber-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Writing & Narrative</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Large language models serve as ideation partners, structural editors, and world-building assistants.
+              Human judgment remains decisive for voice, originality, and final authorship decisions.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-rose-500/15 text-rose-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Agentic Systems</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Multi-step agents that plan, generate, critique, and revise are moving from research demos into
+              production creative stacks. Direction is shifting from tool switching to high-level intent.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/15 text-sky-400">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">Consistency & Control</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Character sheets, visual bibles, reference locking, and style systems have made multi-scene
+              and multi-episode AI-assisted production practical for independent creators.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Use Cases -->
+    <section id="use-cases" class="section-padding border-t border-slate-800/60 bg-slate-900/30">
+      <div class="container-narrow">
+        <div class="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div class="max-w-xl">
+            <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Practice</p>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Featured Use Cases</h2>
+            <p class="text-slate-400">Concrete patterns creators and teams are applying right now.</p>
+          </div>
+          <a href="/explorations" class="btn-secondary text-sm shrink-0">
+            All explorations →
+          </a>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {featured.map((item) => (
+            <a href={`/explorations/${item.slug}`} class="card group block">
+              <p class="text-xs font-medium uppercase tracking-wider text-brand-400 mb-2">
+                {item.data.category}
+              </p>
+              <h3 class="text-lg font-semibold text-white group-hover:text-brand-300 transition mb-2">
+                {item.data.title}
+              </h3>
+              <p class="text-sm text-slate-400 leading-relaxed line-clamp-3">
+                {item.data.description}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Future -->
+    <section id="future" class="section-padding border-t border-slate-800/60">
+      <div class="container-narrow">
+        <div class="mb-12 max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Trajectory</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Where Creative AI Is Heading</h2>
+          <p class="text-slate-400 leading-relaxed">
+            The next phase is less about single spectacular generations and more about reliable, controllable,
+            multi-step creative systems that amplify human intent at scale.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div class="card flex flex-col sm:flex-row gap-6">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-500/15 text-brand-400 text-lg font-bold">
+              01
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">From Tools to Directed Systems</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Creators will increasingly set high-level creative goals and constraints; agentic layers will
+                orchestrate the model chain, surface decision points, and maintain continuity across long-form or multi-asset projects.
+              </p>
+            </div>
+          </div>
+
+          <div class="card flex flex-col sm:flex-row gap-6">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent-500/15 text-accent-400 text-lg font-bold">
+              02
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Real-Time Multimodal Co-Creation</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Lower latency and tighter model integration will make live collaborative sessions —
+                where image, motion, and audio respond in near real time to direction — practical for teams and classrooms.
+              </p>
+            </div>
+          </div>
+
+          <div class="card flex flex-col sm:flex-row gap-6">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400 text-lg font-bold">
+              03
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Provenance, Attribution & Taste Layers</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                As volume grows, systems that track origin, style lineage, and human contribution will become
+                essential for professional pipelines, licensing, and audience trust. Human taste remains the scarce resource.
+              </p>
+            </div>
+          </div>
+
+          <div class="card flex flex-col sm:flex-row gap-6">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400 text-lg font-bold">
+              04
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Personalized Interactive Experiences</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Generative systems will power adaptive narratives, dynamic visual worlds, and music that responds
+                to individual context — expanding beyond static content into living creative environments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing note -->
+    <section class="section-padding border-t border-slate-800/60 bg-slate-900/20">
+      <div class="container-narrow text-center max-w-2xl mx-auto">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">
+          Creativity remains a human practice
+        </h2>
+        <p class="text-slate-400 leading-relaxed mb-8">
+          The most effective practitioners treat generative and agentic systems as amplifiers of intent,
+          not replacements for judgment. The tools change; the need for vision, taste, and accountability does not.
+        </p>
+        <a href="mailto:sales@desertrich.com?subject=Domain%20Acquisition%20Inquiry%20-%20creativeaiexplorer.com" class="btn-primary">
+          Inquire about this domain
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
