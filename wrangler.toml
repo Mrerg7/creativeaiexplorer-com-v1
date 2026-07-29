@@ -1,0 +1,15 @@
+# Cloudflare Workers Static Assets — pure static site
+# Deploy with: npx wrangler deploy
+# No worker script needed; assets are served from the edge.
+
+name = "creativeaiexplorer-com"
+compatibility_date = "2026-07-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets configuration for Workers Static Assets
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+# Optional: custom domain / routes handled in Cloudflare dashboard
+# routes = [{ pattern = "creativeaiexplorer.com/*", zone_name = "creativeaiexplorer.com" }]
