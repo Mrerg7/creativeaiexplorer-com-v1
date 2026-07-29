@@ -4,12 +4,8 @@
 
 name = "creativeaiexplorer-com"
 compatibility_date = "2026-07-01"
-compatibility_flags = ["nodejs_compat"]
 
-# Static assets configuration for Workers Static Assets
+# Static assets configuration for Workers Static Assets (assets-only)
+# Do NOT set a binding when there is no Worker script (main).
 [assets]
 directory = "./dist"
-binding = "ASSETS"
-
-# Optional: custom domain / routes handled in Cloudflare dashboard
-# routes = [{ pattern = "creativeaiexplorer.com/*", zone_name = "creativeaiexplorer.com" }]
