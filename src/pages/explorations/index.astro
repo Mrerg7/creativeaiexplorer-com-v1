@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const all = (await getCollection('use-cases')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout
+  title="Explorations"
+  description="Deep dives into practical creative AI use cases — character consistency, agentic systems, music augmentation, visual ideation and more."
+>
+  <Header />
+  <main>
+    <section class="section-padding">
+      <div class="container-narrow">
+        <div class="mb-12 max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Library</p>
+          <h1 class="text-3xl sm:text-4xl font-bold text-white mb-4">Explorations</h1>
+          <p class="text-slate-400 leading-relaxed">
+            Practical patterns and observations from the evolving creative AI toolkit.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          {all.map((item) => (
+            <a href={`/explorations/${item.slug}`} class="card group block">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-medium uppercase tracking-wider text-brand-400">
+                  {item.data.category}
+                </span>
+                <time class="text-xs text-slate-500" datetime={item.data.published.toISOString()}>
+                  {item.data.published.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                </time>
+              </div>
+              <h2 class="text-xl font-semibold text-white group-hover:text-brand-300 transition mb-2">
+                {item.data.title}
+              </h2>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                {item.data.description}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
