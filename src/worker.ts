@@ -22,12 +22,7 @@ function canonicalPath(pathname: string): string {
   if (pathname === '/index.html' || pathname === '/index') return '/';
   if (pathname === '/sitemap.xml') return '/sitemap-index.xml';
   if (pathname === '/og-default.png') return '/og-default.jpg';
-  if (pathname === '/404.html' || pathname === '/404' || pathname === '/404/') return '/404';
-
-  const last = pathname.split('/').pop() || '';
-  if (last.includes('.')) return pathname;
-  if (pathname === '/') return pathname;
-  return pathname.endsWith('/') ? pathname : `${pathname}/`;
+  return pathname;
 }
 
 export default {
