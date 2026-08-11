@@ -5,7 +5,10 @@ export const SITE = {
   description:
     'Explore current and emerging creative AI tools, workflows, and future trajectories across image, video, music, writing, and agentic systems.',
   email: 'sales@desertrich.com',
-  ogImage: 'https://creativeaiexplorer.com/og-default.jpg',
+  heroImage:
+    'https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/0f0f3faf-6664-41dc-989c-23683562c300/public',
+  ogImage:
+    'https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/0f0f3faf-6664-41dc-989c-23683562c300/public',
 } as const;
 
 /** Absolute canonical URL on the apex host, with a trailing slash for HTML pages. */

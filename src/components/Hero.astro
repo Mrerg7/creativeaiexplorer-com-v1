@@ -1,15 +1,32 @@
 ---
+import { SITE } from '../config/site';
 ---
 
-<section class="relative overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-32 lg:pb-36">
-  <!-- Background glow -->
+<section class="relative overflow-hidden min-h-[min(100svh,880px)] flex items-center pt-20 pb-16 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28">
+  <div class="absolute inset-0">
+    <img
+      src={SITE.heroImage}
+      alt="Creative AI Explorer — compass rose brand mark with cyan and violet energy trails"
+      class="absolute inset-0 h-full w-full object-cover object-center"
+      width="1366"
+      height="745"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/55 to-slate-950"
+      aria-hidden="true"
+    ></div>
+  </div>
+
   <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-600/20 blur-[120px]"></div>
+    <div class="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-600/15 blur-[120px]"></div>
     <div class="absolute top-40 right-0 h-72 w-72 rounded-full bg-accent-500/10 blur-[100px]"></div>
   </div>
 
-  <div class="container-narrow relative text-center">
-    <div class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3.5 py-1.5 text-xs font-medium text-brand-300 mb-6">
+  <div class="container-narrow relative z-10 text-center">
+    <div class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-slate-950/50 px-3.5 py-1.5 text-xs font-medium text-brand-300 mb-6 backdrop-blur-sm">
       <span class="relative flex h-2 w-2">
         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75"></span>
         <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-400"></span>
@@ -17,12 +34,12 @@
       Updated for mid-2026 creative AI landscape
     </div>
 
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6 drop-shadow-lg">
       Exploring the frontiers of
       <span class="gradient-text">Creative AI</span>
     </h1>
 
-    <p class="mx-auto max-w-2xl text-base sm:text-lg text-slate-400 leading-relaxed mb-10">
+    <p class="mx-auto max-w-2xl text-base sm:text-lg text-slate-200 leading-relaxed mb-10 drop-shadow">
       From consistent character pipelines and agentic production systems to generative music and design acceleration —
       a clear-eyed look at what creators are actually using today and where the practice is heading.
     </p>
@@ -31,7 +48,7 @@
       <a href="#current" class="btn-primary">
         Explore the Landscape
       </a>
-      <a href="/explorations/" class="btn-secondary">
+      <a href="/explorations/" class="btn-secondary bg-slate-950/60 backdrop-blur-sm">
         View Use Cases
       </a>
     </div>
