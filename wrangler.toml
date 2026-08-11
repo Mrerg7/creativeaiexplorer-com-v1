@@ -1,11 +1,23 @@
-# Cloudflare Workers Static Assets — pure static site
-# Deploy with: npx wrangler deploy
-# No worker script needed; assets are served from the edge.
+# Workers Static Assets + thin Worker for canonical host redirects
+# (www → apex, http → https, *.workers.dev → apex)
+name = "creativeaiexplorer-com-v1"
+main = "src/worker.ts"
+compatibility_date = "2026-08-11"
+workers_dev = false
+preview_urls = false
 
-name = "creativeaiexplorer-com"
-compatibility_date = "2026-07-01"
+[[routes]]
+pattern = "creativeaiexplorer.com"
+custom_domain = true
 
-# Static assets configuration for Workers Static Assets (assets-only)
-# Do NOT set a binding when there is no Worker script (main).
+[[routes]]
+pattern = "www.creativeaiexplorer.com"
+custom_domain = true
+
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+# Required so Host-based redirects run before static HTML is served
+run_worker_first = true
+html_handling = "force-trailing-slash"
+not_found_handling = "404-page"

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { SITE, canonicalURL as buildCanonical } from '../config/site';
 
 interface Props {
   title: string;
@@ -7,93 +8,116 @@ interface Props {
   ogImage?: string;
   canonical?: string;
   type?: 'website' | 'article';
+  noindex?: boolean;
+  published?: Date;
 }
 
 const {
   title,
   description,
-  ogImage = 'https://creativeaiexplorer.com/og-default.jpg',
+  ogImage = SITE.ogImage,
   canonical,
   type = 'website',
+  noindex = false,
+  published,
 } = Astro.props;
 
-const siteTitle = 'Creative AI Explorer';
+const siteTitle = SITE.name;
 const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
-const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
-const currentYear = new Date().getFullYear();
+const canonicalURL = canonical || buildCanonical(Astro.url.pathname);
+const robots = noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE.url}/#website`,
+      url: `${SITE.url}/`,
+      name: siteTitle,
+      description: SITE.description,
+      publisher: { '@id': `${SITE.url}/#organization` },
+      inLanguage: 'en-US',
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE.url}/#organization`,
+      name: siteTitle,
+      url: `${SITE.url}/`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE.url}/favicon.svg`,
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: SITE.email,
+        contactType: 'sales',
+        areaServed: 'Worldwide',
+      },
+    },
+    {
+      '@type': type === 'article' ? 'Article' : 'WebPage',
+      '@id': `${canonicalURL}#webpage`,
+      url: canonicalURL,
+      name: fullTitle,
+      description,
+      isPartOf: { '@id': `${SITE.url}/#website` },
+      inLanguage: 'en-US',
+      ...(published
+        ? {
+            datePublished: published.toISOString(),
+            dateModified: published.toISOString(),
+          }
+        : {}),
+    },
+  ],
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
+    {!noindex && <link rel="canonical" href={canonicalURL} />}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="author" content="Creative AI Explorer" />
+    <meta name="robots" content={robots} />
+    {noindex && <meta name="googlebot" content="noindex, follow" />}
+    <meta name="author" content={siteTitle} />
     <meta name="theme-color" content="#0c4a6e" />
     <meta name="google-site-verification" content="_xWOgHdvINW51ZBl0w8AFz3U5-Fho1N5YzEmwzm8BuE" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content={siteTitle} />
-    <meta property="og:locale" content="en_US" />
+    {!noindex && (
+      <>
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={fullTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content={siteTitle} />
+        <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={fullTitle} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
 
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://creativeaiexplorer.com/#website",
-          "url": "https://creativeaiexplorer.com",
-          "name": siteTitle,
-          "description": "Explore current and emerging creative AI tools, workflows, and future trajectories across image, video, music, writing, and agentic systems.",
-          "publisher": {
-            "@id": "https://creativeaiexplorer.com/#organization"
-          },
-          "inLanguage": "en-US"
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://creativeaiexplorer.com/#organization",
-          "name": "Creative AI Explorer",
-          "url": "https://creativeaiexplorer.com",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://creativeaiexplorer.com/favicon.svg"
-          },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "sales@desertrich.com",
-            "contactType": "sales",
-            "areaServed": "Worldwide"
-          }
-        }
-      ]
-    })} />
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+      </>
+    )}
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col overflow-x-hidden">
     <slot />
   </body>
 </html>

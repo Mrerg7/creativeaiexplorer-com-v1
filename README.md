@@ -61,8 +61,9 @@ public/         robots.txt, favicon.svg
 
 ## Notes
 
-- Mobile-first, responsive layout
-- Full Open Graph + Twitter cards
-- JSON-LD WebSite + Organization structured data
-- Sitemap generated at build time
+- Mobile-first, responsive layout with 48px tap targets and a mobile nav
+- Canonical apex host (`https://creativeaiexplorer.com/`) with 301s from www, HTTP, and `*.workers.dev`
+- Custom 404 (`noindex`) via Workers `not_found_handling`
+- robots.txt allows Googlebot; sitemap at `/sitemap-index.xml`
+- Full Open Graph + Twitter cards + JSON-LD
 - All copy reflects the mid-2026 creative AI landscape (character consistency pipelines, agentic systems, hybrid music/visual workflows)

@@ -25,7 +25,7 @@ const all = (await getCollection('use-cases')).sort((a, b) => a.data.order - b.d
 
         <div class="grid gap-6 sm:grid-cols-2">
           {all.map((item) => (
-            <a href={`/explorations/${item.slug}`} class="card group block">
+            <a href={`/explorations/${item.slug}/`} class="card group block">
               <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-medium uppercase tracking-wider text-brand-400">
                   {item.data.category}

@@ -1,0 +1,33 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/
+  Link: <https://creativeaiexplorer.com/>; rel="canonical"
+
+/404
+  X-Robots-Tag: noindex, follow
+
+/404.html
+  X-Robots-Tag: noindex, follow
+
+/sitemap-index.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-0.xml
+  Content-Type: application/xml; charset=utf-8
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/og-default.jpg
+  Cache-Control: public, max-age=604800
+  Content-Type: image/jpeg
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

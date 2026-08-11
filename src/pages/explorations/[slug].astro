@@ -24,13 +24,14 @@ const { Content } = await entry.render();
   title={entry.data.title}
   description={entry.data.description}
   type="article"
+  published={entry.data.published}
 >
   <Header />
   <main>
     <article class="section-padding">
       <div class="container-narrow max-w-3xl">
         <header class="mb-10">
-          <a href="/explorations" class="text-sm text-brand-400 hover:text-brand-300 transition mb-6 inline-block">
+          <a href="/explorations/" class="inline-flex min-h-12 items-center text-sm text-brand-400 hover:text-brand-300 transition mb-6">
             ← All explorations
           </a>
           <p class="text-xs font-medium uppercase tracking-wider text-brand-400 mb-3">
@@ -63,7 +64,7 @@ const { Content } = await entry.render();
         </div>
 
         <div class="mt-14 pt-8 border-t border-slate-800">
-          <a href="/explorations" class="btn-secondary text-sm">
+          <a href="/explorations/" class="btn-secondary text-sm">
             ← Back to explorations
           </a>
         </div>
