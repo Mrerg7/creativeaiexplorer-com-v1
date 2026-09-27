@@ -2,7 +2,9 @@
 import { SITE } from '../config/site';
 ---
 
-<section class="relative overflow-hidden min-h-[min(100svh,880px)] flex items-center pt-20 pb-16 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28">
+<section
+  class="relative overflow-hidden min-h-[min(100svh,880px)] flex items-center pt-20 pb-16 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28"
+>
   <div class="absolute inset-0">
     <img
       src={SITE.heroImage}
@@ -20,37 +22,45 @@ import { SITE } from '../config/site';
     ></div>
   </div>
 
-  <div class="pointer-events-none absolute inset-0">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
     <div class="absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-600/15 blur-[120px]"></div>
     <div class="absolute top-40 right-0 h-72 w-72 rounded-full bg-accent-500/10 blur-[100px]"></div>
   </div>
 
   <div class="container-narrow relative z-10 text-center">
-    <div class="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-slate-950/50 px-3.5 py-1.5 text-xs font-medium text-brand-300 mb-6 backdrop-blur-sm">
-      <span class="relative flex h-2 w-2">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-400"></span>
+    <div
+      class="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-brand-500/30 bg-slate-950/50 px-3.5 py-1.5 text-xs font-medium text-brand-300 mb-6 backdrop-blur-sm"
+    >
+      <span class="relative flex h-2 w-2 shrink-0">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
       </span>
-      Updated for mid-2026 creative AI landscape
+      <span class="min-w-0 truncate">{SITE.host} — for sale</span>
     </div>
 
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6 drop-shadow-lg">
+    <h1
+      class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6 drop-shadow-lg text-balance"
+    >
       Exploring the frontiers of
       <span class="gradient-text">Creative AI</span>
     </h1>
 
-    <p class="mx-auto max-w-2xl text-base sm:text-lg text-slate-200 leading-relaxed mb-10 drop-shadow">
+    <p class="mx-auto max-w-2xl text-base sm:text-lg text-slate-200 leading-relaxed mb-8 drop-shadow">
       From consistent character pipelines and agentic production systems to generative music and design acceleration —
       a clear-eyed look at what creators are actually using today and where the practice is heading.
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="#current" class="btn-primary">
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 max-w-md sm:max-w-none mx-auto">
+      <a href="#acquire" class="btn-primary">
+        Acquire this Domain
+      </a>
+      <a href="#current" class="btn-secondary bg-slate-950/60 backdrop-blur-sm">
         Explore the Landscape
       </a>
-      <a href="/explorations/" class="btn-secondary bg-slate-950/60 backdrop-blur-sm">
-        View Use Cases
-      </a>
     </div>
+
+    <p class="mt-5 text-xs sm:text-sm text-slate-300/90">
+      <span class="font-semibold text-white">Priced to sell</span> · Secure escrow transfer · Reply within 1–2 business days
+    </p>
   </div>
 </section>

@@ -4,18 +4,69 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { SITE, offerHref } from '../config/site';
 
 const featured = (await getCollection('use-cases'))
   .filter((c) => c.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
+
+const faqs = [
+  {
+    q: `Is ${SITE.host} actually for sale?`,
+    a: `Yes. ${SITE.host} is available for acquisition and is offered directly by the owner, ${SITE.seller}. Serious inquiries receive a written reply with next steps and escrow instructions, typically within 1–2 business days.`,
+  },
+  {
+    q: 'How much does the domain cost?',
+    a: `The domain is priced to sell and is not being held for a speculative six-figure number. Send your offer to ${SITE.email} — comparable exact-match creative and AI .com names routinely trade in the four to five figures, and reasonable offers receive a prompt response.`,
+  },
+  {
+    q: 'How does the secure transfer work?',
+    a: 'Transfer runs through a licensed escrow service such as Escrow.com, Dan, Afternic, or Sedo. Funds are held in escrow, the domain is pushed or transferred to your registrar account, and money is released only after you confirm receipt — usually within 1 to 5 days.',
+  },
+  {
+    q: 'What is creativeaiexplorer.com best used for?',
+    a: 'It is a natural fit for AI creativity platforms, generative tool directories and comparison sites, creative agencies, newsletters and media brands, research hubs, and SaaS products positioned around image, video, music, writing, or agentic creative workflows.',
+  },
+  {
+    q: 'Why does an exact-match .com matter?',
+    a: 'Exact-match .com names are easier to spell, say, and recall; they earn more type-in and branded search traffic; they signal credibility in press mentions and investor conversations; and they hold resale value long after a branded alternative becomes stale.',
+  },
+  {
+    q: 'Can I make an offer or request a payment plan?',
+    a: `Yes. Email ${SITE.email} with your offer, intended use, and timeline. Structured payment arrangements from qualified buyers will be considered on a case-by-case basis.`,
+  },
+  {
+    q: 'Who is selling this domain?',
+    a: `${SITE.host} is offered by ${SITE.seller} (${SITE.email}), a US-based holder of premium brandable .com assets. There are no brokers in the middle — you correspond directly with the seller.`,
+  },
+];
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+
+const buyerTypes = [
+  'AI creativity platforms',
+  'Tool directories',
+  'Agencies & studios',
+  'Newsletters & media',
+  'Research groups',
+  'SaaS startups',
+];
 ---
 
 <Layout
-  title="Creative AI Explorer"
-  description="Explore current and emerging creative AI tools, workflows, and future trajectories across image, video, music, writing, and agentic systems. Updated for 2026."
+  title={SITE.saleTitle}
+  description={SITE.saleDescription}
+  extraSchema={[faqSchema]}
 >
   <Header />
-  <main>
+  <main id="main-content">
     <Hero />
 
     <!-- Current Landscape -->
@@ -23,7 +74,7 @@ const featured = (await getCollection('use-cases'))
       <div class="container-narrow">
         <div class="mb-12 max-w-2xl">
           <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Now</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">The 2026 Creative AI Landscape</h2>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 text-balance">The 2026 Creative AI Landscape</h2>
           <p class="text-slate-400 leading-relaxed">
             Creative practice has moved past early novelty. The dominant pattern is hybrid human–AI workflows
             where models handle volume, variation, and continuity while humans retain direction, taste, and final accountability.
@@ -33,7 +84,7 @@ const featured = (await getCollection('use-cases'))
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500/15 text-brand-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Visual Generation</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -44,7 +95,7 @@ const featured = (await getCollection('use-cases'))
 
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent-500/15 text-accent-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Video & Motion</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -55,7 +106,7 @@ const featured = (await getCollection('use-cases'))
 
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Music & Audio</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -66,7 +117,7 @@ const featured = (await getCollection('use-cases'))
 
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/15 text-amber-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Writing & Narrative</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -77,7 +128,7 @@ const featured = (await getCollection('use-cases'))
 
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-rose-500/15 text-rose-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Agentic Systems</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -88,7 +139,7 @@ const featured = (await getCollection('use-cases'))
 
           <article class="card">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/15 text-sky-400">
-              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
             </div>
             <h3 class="text-lg font-semibold text-white mb-2">Consistency & Control</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
@@ -106,7 +157,7 @@ const featured = (await getCollection('use-cases'))
         <div class="mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div class="max-w-xl">
             <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Practice</p>
-            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Featured Use Cases</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3 text-balance">Featured Use Cases</h2>
             <p class="text-slate-400">Concrete patterns creators and teams are applying right now.</p>
           </div>
           <a href="/explorations/" class="btn-secondary text-sm shrink-0">
@@ -137,7 +188,7 @@ const featured = (await getCollection('use-cases'))
       <div class="container-narrow">
         <div class="mb-12 max-w-2xl">
           <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Trajectory</p>
-          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Where Creative AI Is Heading</h2>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 text-balance">Where Creative AI Is Heading</h2>
           <p class="text-slate-400 leading-relaxed">
             The next phase is less about single spectacular generations and more about reliable, controllable,
             multi-step creative systems that amplify human intent at scale.
@@ -146,7 +197,7 @@ const featured = (await getCollection('use-cases'))
 
         <div class="space-y-6">
           <div class="card flex flex-col sm:flex-row gap-6">
-            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-500/15 text-brand-400 text-lg font-bold">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-500/15 text-brand-400 text-lg font-bold" aria-hidden="true">
               01
             </div>
             <div>
@@ -159,7 +210,7 @@ const featured = (await getCollection('use-cases'))
           </div>
 
           <div class="card flex flex-col sm:flex-row gap-6">
-            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent-500/15 text-accent-400 text-lg font-bold">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent-500/15 text-accent-400 text-lg font-bold" aria-hidden="true">
               02
             </div>
             <div>
@@ -172,7 +223,7 @@ const featured = (await getCollection('use-cases'))
           </div>
 
           <div class="card flex flex-col sm:flex-row gap-6">
-            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400 text-lg font-bold">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400 text-lg font-bold" aria-hidden="true">
               03
             </div>
             <div>
@@ -185,7 +236,7 @@ const featured = (await getCollection('use-cases'))
           </div>
 
           <div class="card flex flex-col sm:flex-row gap-6">
-            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400 text-lg font-bold">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400 text-lg font-bold" aria-hidden="true">
               04
             </div>
             <div>
@@ -197,22 +248,172 @@ const featured = (await getCollection('use-cases'))
             </div>
           </div>
         </div>
+
+        <p class="mt-10 text-sm text-slate-400 leading-relaxed">
+          Further reading:
+          <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener noreferrer" class="text-brand-400 hover:text-brand-300 underline underline-offset-2">NIST AI Risk Management Framework</a>
+          ·
+          <a href="https://oecd.ai/en/ai-principles" target="_blank" rel="noopener noreferrer" class="text-brand-400 hover:text-brand-300 underline underline-offset-2">OECD AI Principles</a>
+          ·
+          <a href="https://c2pa.org/" target="_blank" rel="noopener noreferrer" class="text-brand-400 hover:text-brand-300 underline underline-offset-2">C2PA content provenance standard</a>
+          ·
+          <a href="https://en.wikipedia.org/wiki/Generative_artificial_intelligence" target="_blank" rel="noopener noreferrer" class="text-brand-400 hover:text-brand-300 underline underline-offset-2">Generative AI overview</a>
+        </p>
       </div>
     </section>
 
     <!-- Closing note -->
     <section class="section-padding border-t border-slate-800/60 bg-slate-900/20">
       <div class="container-narrow text-center max-w-2xl mx-auto">
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 text-balance">
           Creativity remains a human practice
         </h2>
-        <p class="text-slate-400 leading-relaxed mb-8">
+        <p class="text-slate-400 leading-relaxed">
           The most effective practitioners treat generative and agentic systems as amplifiers of intent,
           not replacements for judgment. The tools change; the need for vision, taste, and accountability does not.
         </p>
-        <a href="mailto:sales@desertrich.com?subject=Domain%20Acquisition%20Inquiry%20-%20creativeaiexplorer.com" class="btn-primary">
-          Inquire about this domain
-        </a>
+      </div>
+    </section>
+
+    <!-- Domain value -->
+    <section id="domain-value" class="section-padding border-t border-slate-800/60">
+      <div class="container-narrow">
+        <div class="mb-12 max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">For Sale · Exact-Match .com</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 text-balance">
+            Why creativeaiexplorer.com is worth owning
+          </h2>
+          <p class="text-slate-400 leading-relaxed">
+            Three clear buyer intents — <strong class="text-slate-200">creative</strong>,
+            <strong class="text-slate-200">AI</strong>, and <strong class="text-slate-200">explorer</strong> —
+            fused into one pronounceable, category-defining .com that works as a product name, a publication,
+            or a directory.
+          </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <article class="card">
+            <h3 class="text-lg font-semibold text-white mb-2">Exact-match .com authority</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Type-in traffic, branded search, and press mentions compound on a .com that says exactly what it is.
+              Buyers already trust .com for login, billing, and word-of-mouth referrals.
+            </p>
+          </article>
+          <article class="card">
+            <h3 class="text-lg font-semibold text-white mb-2">Built for the creative AI category</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Generative image and video tools, music models, agent platforms, prompt libraries, and creator
+              communities — the name maps directly to the fastest-moving corner of the AI market.
+            </p>
+          </article>
+          <article class="card">
+            <h3 class="text-lg font-semibold text-white mb-2">Memorable and easy to say</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Three common English words, no hyphens, no spelling guesswork. It survives podcasts, conference
+              stages, sales calls, and ad copy without a spelling lesson.
+            </p>
+          </article>
+          <article class="card">
+            <h3 class="text-lg font-semibold text-white mb-2">Single owner, clean escrow transfer</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              One owner, no partnership disputes, no liens. Transfer runs through licensed escrow and completes
+              at your registrar — typically in 1 to 5 days.
+            </p>
+          </article>
+        </div>
+
+        <ul aria-label="Ideal buyers for this domain" class="mt-8 flex flex-wrap gap-2 text-xs sm:text-sm text-slate-400">
+          {buyerTypes.map((type) => (
+            <li class="rounded-full border border-slate-700/80 bg-slate-900/60 px-3 py-1.5">{type}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Acquire -->
+    <section id="acquire" class="section-padding border-t border-slate-800/60 bg-slate-900/30">
+      <div class="container-narrow max-w-4xl">
+        <div class="text-center mb-10">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Domain for Sale</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 text-balance">
+            Acquire creativeaiexplorer.com
+          </h2>
+          <p class="text-slate-400 leading-relaxed max-w-2xl mx-auto">
+            Priced to sell. Make an offer and the transfer is handled through licensed escrow, so neither side
+            takes risk. Response within 1–2 business days.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-brand-500/30 bg-slate-950/70 p-6 sm:p-10">
+          <ol class="grid gap-4 sm:grid-cols-3 mb-8">
+            <li class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-brand-400 mb-2">Step 1</p>
+              <h3 class="text-base font-semibold text-white mb-1">Make an offer</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Email <a href={offerHref} class="text-brand-400 hover:text-brand-300 underline underline-offset-2">{SITE.email}</a> with your price, intended use, and timeline.
+              </p>
+            </li>
+            <li class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-brand-400 mb-2">Step 2</p>
+              <h3 class="text-base font-semibold text-white mb-1">Fund escrow</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                Escrow.com, Dan, Afternic, or Sedo holds the funds while the transfer starts. No direct wire to a stranger.
+              </p>
+            </li>
+            <li class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+              <p class="text-xs font-semibold uppercase tracking-wider text-brand-400 mb-2">Step 3</p>
+              <h3 class="text-base font-semibold text-white mb-1">Receive the domain</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                The name lands in your registrar account, you confirm, and escrow releases payment. Usually 1–5 days.
+              </p>
+            </li>
+          </ol>
+
+          <div class="text-center">
+            <a
+              href={offerHref}
+              class="btn-primary text-base px-8 py-4 w-full sm:w-auto"
+            >
+              Make an offer — sales@desertrich.com
+            </a>
+            <p class="mt-4 text-xs text-slate-400">
+              Secure escrow · Registrar transfer · US-based seller: {SITE.seller} · Payment plans considered for qualified buyers
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-padding border-t border-slate-800/60">
+      <div class="container-narrow max-w-3xl">
+        <div class="mb-10 text-center">
+          <p class="text-sm font-semibold uppercase tracking-widest text-brand-400 mb-3">Answers</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white text-balance">Domain Sale FAQ</h2>
+        </div>
+
+        <div class="space-y-3">
+          {faqs.map((faq) => (
+            <details class="group rounded-2xl border border-slate-800 bg-slate-900/60 px-5 sm:px-6 open:border-brand-500/40 transition-colors">
+              <summary class="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-2 text-base font-semibold text-white [&::-webkit-details-marker]:hidden">
+                <span>{faq.q}</span>
+                <span
+                  aria-hidden="true"
+                  class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-700 text-lg leading-none text-brand-400 transition-transform group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p class="pb-4 text-sm sm:text-base text-slate-400 leading-relaxed">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={offerHref} class="btn-secondary text-sm">
+            Ask a question — sales@desertrich.com
+          </a>
+        </div>
       </div>
     </section>
   </main>

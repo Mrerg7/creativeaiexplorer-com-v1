@@ -8,11 +8,11 @@ const all = (await getCollection('use-cases')).sort((a, b) => a.data.order - b.d
 ---
 
 <Layout
-  title="Explorations"
-  description="Deep dives into practical creative AI use cases — character consistency, agentic systems, music augmentation, visual ideation and more."
+  title="Creative AI Explorations — Practical Use Cases"
+  description="Deep dives into practical creative AI use cases — character consistency, agentic systems, music augmentation, visual ideation and more. Part of creativeaiexplorer.com."
 >
   <Header />
-  <main>
+  <main id="main-content">
     <section class="section-padding">
       <div class="container-narrow">
         <div class="mb-12 max-w-2xl">
@@ -30,7 +30,7 @@ const all = (await getCollection('use-cases')).sort((a, b) => a.data.order - b.d
                 <span class="text-xs font-medium uppercase tracking-wider text-brand-400">
                   {item.data.category}
                 </span>
-                <time class="text-xs text-slate-500" datetime={item.data.published.toISOString()}>
+                <time class="text-xs text-slate-400" datetime={item.data.published.toISOString()}>
                   {item.data.published.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
                 </time>
               </div>

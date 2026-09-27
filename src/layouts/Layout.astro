@@ -10,24 +10,38 @@ interface Props {
   type?: 'website' | 'article';
   noindex?: boolean;
   published?: Date;
+  /** Additional JSON-LD nodes merged into the page @graph. */
+  extraSchema?: Record<string, unknown>[];
 }
 
 const {
   title,
   description,
   ogImage = SITE.ogImage,
+  ogImageWidth = '1536',
+  ogImageHeight = '1024',
   canonical,
   type = 'website',
   noindex = false,
   published,
-} = Astro.props;
+  extraSchema = [],
+} = Astro.props as Props & { ogImageWidth?: string; ogImageHeight?: string };
 
 const siteTitle = SITE.name;
-const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
+const fullTitle = title.startsWith(siteTitle) ? title : `${title} · ${siteTitle}`;
 const canonicalURL = canonical || buildCanonical(Astro.url.pathname);
 const robots = noindex
-  ? 'noindex, follow'
+  ? 'noindex, nofollow'
   : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+const pathname = Astro.url.pathname;
+const crumbs: { name: string; item: string }[] = [{ name: 'Home', item: `${SITE.url}/` }];
+if (pathname.startsWith('/explorations')) {
+  crumbs.push({ name: 'Explorations', item: `${SITE.url}/explorations/` });
+  if (pathname !== '/explorations/' && pathname !== '/explorations') {
+    crumbs.push({ name: title, item: canonicalURL });
+  }
+}
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -58,12 +72,41 @@ const structuredData = {
       },
     },
     {
+      '@type': 'Organization',
+      '@id': `${SITE.url}/#seller`,
+      name: SITE.seller,
+      email: SITE.email,
+      url: `${SITE.url}/`,
+      description: `Seller of ${SITE.host}. US-based holder of premium brandable .com domain assets.`,
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: SITE.email,
+        contactType: 'sales',
+        areaServed: 'Worldwide',
+      },
+    },
+    ...(crumbs.length > 1
+      ? [
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${SITE.url}/#breadcrumb`,
+            itemListElement: crumbs.map((crumb, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: crumb.name,
+              item: crumb.item,
+            })),
+          },
+        ]
+      : []),
+    {
       '@type': type === 'article' ? 'Article' : 'WebPage',
       '@id': `${canonicalURL}#webpage`,
       url: canonicalURL,
       name: fullTitle,
       description,
       isPartOf: { '@id': `${SITE.url}/#website` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: ogImage },
       inLanguage: 'en-US',
       ...(published
         ? {
@@ -72,6 +115,7 @@ const structuredData = {
           }
         : {}),
     },
+    ...extraSchema,
   ],
 };
 ---
@@ -82,13 +126,17 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     {!noindex && <link rel="canonical" href={canonicalURL} />}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
-    {noindex && <meta name="googlebot" content="noindex, follow" />}
-    <meta name="author" content={siteTitle} />
+    <meta name="googlebot" content={robots} />
+    <meta name="author" content={SITE.seller} />
     <meta name="theme-color" content="#0c4a6e" />
     <meta name="google-site-verification" content="_xWOgHdvINW51ZBl0w8AFz3U5-Fho1N5YzEmwzm8BuE" />
 
@@ -99,8 +147,9 @@ const structuredData = {
         <meta property="og:title" content={fullTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImage} />
-        <meta property="og:image:width" content="1366" />
-        <meta property="og:image:height" content="745" />
+        <meta property="og:image:width" content={ogImageWidth} />
+        <meta property="og:image:height" content={ogImageHeight} />
+        <meta property="og:image:alt" content={SITE.ogImageAlt} />
         <meta property="og:site_name" content={siteTitle} />
         <meta property="og:locale" content="en_US" />
 
@@ -108,20 +157,31 @@ const structuredData = {
         <meta name="twitter:title" content={fullTitle} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image:alt" content={SITE.ogImageAlt} />
 
         <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
       </>
     )}
 
     <link rel="preconnect" href="https://imagedelivery.net" />
+    <link rel="dns-prefetch" href="https://imagedelivery.net" />
     {(Astro.url.pathname === '/' || Astro.url.pathname === '') && (
       <link rel="preload" as="image" href={SITE.heroImage} fetchpriority="high" />
     )}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class="min-h-screen flex flex-col overflow-x-hidden">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:rounded-full focus:bg-brand-500 focus:text-white focus:font-semibold"
+    >
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

@@ -1,19 +1,22 @@
 ---
+import { offerHref } from '../config/site';
+
 const nav = [
   { href: '/#current', label: 'Current Landscape' },
   { href: '/#use-cases', label: 'Use Cases' },
   { href: '/#future', label: 'Future' },
+  { href: '/#acquire', label: 'Acquire Domain' },
   { href: '/explorations/', label: 'Explorations' },
 ];
 ---
 
 <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
   <div class="container-wide flex h-16 items-center justify-between gap-3">
-    <a href="/" class="group flex min-h-12 items-center gap-2.5 shrink-0">
-      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 text-sm font-bold text-white shadow-lg shadow-brand-500/30">
+    <a href="/" class="group flex min-h-12 min-w-0 items-center gap-2.5">
+      <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-500 text-sm font-bold text-white shadow-lg shadow-brand-500/30" aria-hidden="true">
         CA
       </span>
-      <span class="text-sm font-semibold tracking-tight text-white group-hover:text-brand-300 transition">
+      <span class="truncate text-[13px] sm:text-sm font-semibold tracking-tight text-white group-hover:text-brand-300 transition">
         Creative AI Explorer
       </span>
     </a>
@@ -29,12 +32,13 @@ const nav = [
       ))}
     </nav>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 shrink-0">
       <a
-        href="mailto:sales@desertrich.com?subject=Domain%20Acquisition%20Inquiry%20-%20creativeaiexplorer.com"
+        href={offerHref}
         class="btn-primary text-xs sm:text-sm !min-h-12 px-4 sm:px-5"
       >
-        Acquire Domain
+        <span class="sm:hidden">Acquire</span>
+        <span class="hidden sm:inline">Acquire Domain</span>
       </a>
 
       <details class="relative md:hidden">
@@ -48,7 +52,7 @@ const nav = [
           </svg>
         </summary>
         <nav
-          class="absolute right-0 mt-2 w-56 rounded-xl border border-slate-800 bg-slate-950 p-2 shadow-xl"
+          class="absolute right-0 mt-2 w-60 rounded-xl border border-slate-800 bg-slate-950 p-2 shadow-xl"
           aria-label="Mobile"
         >
           {nav.map((item) => (
@@ -70,3 +74,19 @@ const nav = [
     display: none;
   }
 </style>
+
+<script>
+  const closeMenu = (link: HTMLAnchorElement) => {
+    link.closest('details')?.removeAttribute('open');
+  };
+  document.querySelectorAll<HTMLAnchorElement>('header details a').forEach((link) => {
+    link.addEventListener('click', () => closeMenu(link));
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      document.querySelectorAll<HTMLDetailsElement>('header details[open]').forEach((menu) => {
+        menu.removeAttribute('open');
+      });
+    }
+  });
+</script>
